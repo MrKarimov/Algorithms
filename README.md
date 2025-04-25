@@ -195,8 +195,7 @@ Python uses **Timsort**, a hybrid of Merge Sort and Insertion Sort — fast and 
 
 ## �� Author
 
-Created by an AI Python assistant for educational purposes.  
-Feel free to clone, use, and modify.
+Created by Mr_Karimov
 
 ---
 
