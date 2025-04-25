@@ -1,50 +1,203 @@
-# Algorithms
-## **Linear Search vs Binary Search Algorithms**  
+# 🥮 Sorting Algorithms in Python
 
-### **1. Linear Search**  
-Linear search is a **simple searching algorithm** that checks each element **sequentially** from the beginning to the end of the list until it finds the target value.  
-
-#### **Algorithm:**  
-1. Start from the **first element** (**L = 0**).
-2. Compare each element with the target.
-3. If the target is found, return the index.
-4. If the list ends without finding the target, return **not found**.
-
-#### **Big O Complexity:**  
-- **Best case:** **O(1)** (if the first element is the target).  
-- **Worst case:** **O(N)** (if the target is at the last position or not in the list).  
+This repository demonstrates some of the most well-known sorting algorithms implemented in Python. Each algorithm is explained with a short description, time complexity, and code example.
 
 ---
 
-### **2. Binary Search**  
-Binary search works only on **sorted lists**. It repeatedly **divides the search space in half** until the target is found.  
+## 📚 Table of Contents
 
-#### **Algorithm:**  
-1. Set **L = 0** (lower bound) and **H = N - 1** (upper bound).  
-2. Find the **middle element**:  
-   \[
-   M = \frac{L + H}{2}
-   \]  
-3. If **M == target**, return M.  
-4. If **M < target**, set **L = M + 1** (search in the right half).  
-5. If **M > target**, set **H = M - 1** (search in the left half).  
-6. Repeat until **L > H** or the target is found.  
-
-#### **Big O Complexity:**  
-- **Best case:** **O(1)** (if the middle element is the target).  
-- **Worst case:** **O(log N)** (as the search space is halved in each step).  
+1. [Bubble Sort](#1-bubble-sort)
+2. [Selection Sort](#2-selection-sort)
+3. [Insertion Sort](#3-insertion-sort)
+4. [Merge Sort](#4-merge-sort)
+5. [Quick Sort](#5-quick-sort)
+6. [Heap Sort](#6-heap-sort)
+7. [Comparison Table](#7-comparison-table)
 
 ---
 
-### **Comparison Table**  
+## 1. 🔁 Bubble Sort
 
-| **Search Type**   | **Best Case** | **Average Case** | **Worst Case**  |
-|------------------|--------------|----------------|--------------|
-| **Linear Search** | **O(1)**     | **O(N)**       | **O(N)**     |
-| **Binary Search** | **O(1)**     | **O(log N)**   | **O(log N)** |
+**Idea**: Repeatedly compares adjacent elements and swaps them if they are in the wrong order.
 
-### **Conclusion:**  
-- **Linear search** works on both **sorted and unsorted lists**, but it is inefficient for large datasets.  
-- **Binary search** is much faster but **only works on sorted lists**.
+**Time Complexity**:
+- Best: O(n)
+- Average: O(n²)
+- Worst: O(n²)
+
+```python
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
+```
+
+---
+
+## 2. ✅ Selection Sort
+
+**Idea**: Finds the smallest element in the unsorted portion and moves it to the sorted part.
+
+**Time Complexity**:
+- Best: O(n²)
+- Average: O(n²)
+- Worst: O(n²)
+
+```python
+def selection_sort(arr):
+    for i in range(len(arr)):
+        min_idx = i
+        for j in range(i+1, len(arr)):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr
+```
+
+---
+
+## 3. 🧙 Insertion Sort
+
+**Idea**: Builds the final sorted array one item at a time by inserting it into its correct position.
+
+**Time Complexity**:
+- Best: O(n)
+- Average: O(n²)
+- Worst: O(n²)
+
+```python
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr
+```
+
+---
+
+## 4. ⚡ Merge Sort
+
+**Idea**: Divides the array into halves, sorts each half, and merges them back together.
+
+**Time Complexity**:
+- Best: O(n log n)
+- Average: O(n log n)
+- Worst: O(n log n)
+
+```python
+def merge_sort(arr):
+    if len(arr) > 1:
+        mid = len(arr) // 2
+        L = arr[:mid]
+        R = arr[mid:]
+
+        merge_sort(L)
+        merge_sort(R)
+
+        i = j = k = 0
+
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1
+    return arr
+```
+
+---
+
+## 5. 🚀 Quick Sort
+
+**Idea**: Picks a pivot element and partitions the array into two parts — less than and greater than the pivot.
+
+**Time Complexity**:
+- Best: O(n log n)
+- Average: O(n log n)
+- Worst: O(n²)
+
+```python
+def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+
+    pivot = arr[0]
+    left = [x for x in arr[1:] if x < pivot]
+    right = [x for x in arr[1:] if x >= pivot]
+
+    return quick_sort(left) + [pivot] + quick_sort(right)
+```
+
+---
+
+## 6. 🏗️ Heap Sort
+
+**Idea**: Builds a heap from the array and repeatedly removes the largest/smallest element.
+
+**Time Complexity**:
+- Best: O(n log n)
+- Average: O(n log n)
+- Worst: O(n log n)
+
+```python
+import heapq
+
+def heap_sort(arr):
+    heapq.heapify(arr)
+    return [heapq.heappop(arr) for _ in range(len(arr))]
+```
+
+---
+
+## 7. 📊 Comparison Table
+
+| Algorithm       | Best       | Average    | Worst      | Stable | In-Place |
+|----------------|------------|------------|------------|--------|----------|
+| Bubble Sort     | O(n)       | O(n²)       | O(n²)       | Yes    | Yes      |
+| Selection Sort  | O(n²)      | O(n²)       | O(n²)       | No     | Yes      |
+| Insertion Sort  | O(n)       | O(n²)       | O(n²)       | Yes    | Yes      |
+| Merge Sort      | O(n log n) | O(n log n)  | O(n log n)  | Yes    | No       |
+| Quick Sort      | O(n log n) | O(n log n)  | O(n²)       | No     | Yes      |
+| Heap Sort       | O(n log n) | O(n log n)  | O(n log n)  | No     | Yes      |
+
+---
+
+## �� Tip
+
+For real-world Python sorting, prefer the built-in:
+
+```python
+sorted(arr)  # or arr.sort()
+```
+
+Python uses **Timsort**, a hybrid of Merge Sort and Insertion Sort — fast and stable.
+
+---
+
+## �� Author
+
+Created by an AI Python assistant for educational purposes.  
+Feel free to clone, use, and modify.
+
+---
 
 
